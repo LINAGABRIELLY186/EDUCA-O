@@ -21,7 +21,7 @@ const questoes = {
       opcoes: ["Pato, Mesa, Bola", "Pato, Pente, Livro", "Gato, Pato, Casa", "Gato, Livro, Pé"], respostaCorreta: 2 },
 
     { pergunta: "Leia: 'O sol brilha forte no céu.' Qual é o sujeito da frase?", 
-      opcoes: ["Sol", "Céu", "Forte", "Brilha"], respostaCorreta: 0 },
+      opcoes: ["O Sol", "Céu", "Forte", "Brilha"], respostaCorreta: 0 },
 
     { pergunta: "Qual das palavras representa um lugar?", 
       opcoes: ["Escola", "Correr", "Pular", "Bonito"], respostaCorreta: 0 },
