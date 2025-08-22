@@ -1,0 +1,223 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column;
+    text-align: center;
+    /* Removemos o background-image daqui para usar no pseudo-elemento */
+    background-color: white; /* Define uma cor de fundo sólida para a página */
+    position: relative; /* Necessário para o pseudo-elemento */
+}
+
+body::after {
+    content: "";
+    background-image: url('fundo.png');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 100% auto; /* Ocupa 100% da largura, mantendo a proporção */
+    opacity: 0.1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#logo-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 100;
+    
+}
+
+#logo-container img {
+    height: 50px;
+    max-width: 150px;
+}
+
+/* Telas */
+.tela-oculta {
+    display: none;
+}
+.tela-ativa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background-color: #025D94;
+    border-radius: 10px;
+    margin-top: 40px;
+    max-width: 90%; /* Limita a largura do contêiner para 90% da tela */
+    width: 500px; /* Define uma largura máxima para telas maiores (desktops) */
+}
+
+.roleta-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 20px auto;
+    max-width: 80vw; /* Garante que a roleta não seja maior que 80% da largura da tela */
+    max-height: 80vw;
+}
+
+#tela-inicial h1 {
+    color: #FF0000; /* Altere para a cor que você desejar */
+}
+h1 {
+    color: #f1f3f5;
+    margin-bottom: 10px;
+}
+
+h2, h3 {
+    color: #ece8e8;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background-color: #367970;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Roleta */
+/* Roleta */
+.roleta-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 20px auto;
+    max-width: 80vw;
+    max-height: 80vw;
+}
+
+#roleta {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #bef054;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition: transform 3s ease-out;
+}
+
+.setor {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    transform-origin: 100% 100%;
+    border: 1px solid black;
+    
+    /* Esta regra é crucial para centralizar os números de forma uniforme */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 1.2em;
+    color: white;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Define o ângulo de cada setor para 12 partes de 30 graus */
+.setor:nth-child(1) { transform: rotate(0deg); background-color: #ff0000; }
+.setor:nth-child(2) { transform: rotate(30deg); background-color: #00ff00; }
+.setor:nth-child(3) { transform: rotate(60deg); background-color: #0000ff; }
+.setor:nth-child(4) { transform: rotate(90deg); background-color: #ffff00; }
+.setor:nth-child(5) { transform: rotate(120deg); background-color: #ff00d0; }
+.setor:nth-child(6) { transform: rotate(150deg); background-color: #3d3f3d; }
+.setor:nth-child(7) { transform: rotate(180deg); background-color: #040c5f; }
+.setor:nth-child(8) { transform: rotate(210deg); background-color: #60024c; }
+.setor:nth-child(9) { transform: rotate(240deg); background-color: #e70f33; }
+.setor:nth-child(10) { transform: rotate(270deg); background-color: #4f0dea; }
+.setor:nth-child(11) { transform: rotate(300deg); background-color: #04431d; }
+.setor:nth-child(12) { transform: rotate(330deg); background-color: #405205; }
+
+/* ... (O restante do seu CSS abaixo, como a seta, a questão, etc.) ... */
+
+.seta {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 15px solid red;
+    z-index: 10;
+}
+
+/* Questão */
+#questao-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #367970;
+    max-width: 600px;
+    text-align: left;
+}
+
+#opcoes-container button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    text-align: left;
+    background-color: #e9ecef;
+    color: #333;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#opcoes-container button:hover {
+    background-color: #dee2e6;
+}
+
+#feedback {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* Títulos das telas */
+#tela-inicial h1 {
+    font-size: 2em;
+    text-align: center;
+    color: #f4f8f5;
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+
+#tela-inicial h2 {
+    margin-bottom: 30px;
+    color: #f5f5f5;
+}
+
+/* Feedback pulando */
+.animacao-correta {
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+  }
+  to {
+    transform: scale(1.2);
+    text-shadow: 0 0 15px #ff0, 0 0 25px #ff5733;
+  }
+}

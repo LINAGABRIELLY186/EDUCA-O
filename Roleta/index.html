@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparando para o SAEB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="v2.png" type="image/png" sizes="32x32">
+</head>
+<body>
+    <div id="logo-container">
+        <img src="logo_prefeitura.png" alt="Prefeitura de Lagoa do Piauí">
+    </div>
+    <div id="tela-inicial" class="tela-ativa">
+        <h1>Escolha sua Turma para começar!</h1>
+        <button onclick="iniciarJogo('2ano')">2° Ano</button>
+        <button onclick="iniciarJogo('5ano')">5° Ano</button>
+        <button onclick="iniciarJogo('9ano')">9° Ano</button>
+    </div>
+
+    <div id="tela-jogo" class="tela-oculta">
+        <h2>Roleta - TREINANDO SAEB</h2>
+        <div class="roleta-container">
+            <div class="seta"></div>
+            <div id="roleta">
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+            <div class="setor"><span></span></div>
+        </div>
+        </div>
+        <button onclick="girarRoleta()">Girar Roleta!</button>
+
+        <button onclick="voltarParaSelecaoDeAno()">Voltar</button>
+
+        <div id="questao-container" class="questao-oculta">
+            <h3 id="enunciado-questao"></h3>
+            <div id="opcoes-container"></div>
+            <p id="feedback"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.min.js"></script>
+</body>
+</html>
