@@ -21,7 +21,7 @@ const questoes = {
       opcoes: ["Pato, Mesa, Bola", "Pato, Pente, Livro", "Gato, Pato, Casa", "Gato, Livro, Pé"], respostaCorreta: 2 },
 
     { pergunta: "Leia: 'O sol brilha forte no céu.' Qual é o sujeito da frase?", 
-      opcoes: ["O Sol", "Céu", "Forte", "Brilha"], respostaCorreta: 0 },
+      opcoes: ["O Sol", "No Céu", "Forte", "Brilha"], respostaCorreta: 0 },
 
     { pergunta: "Qual das palavras representa um lugar?", 
       opcoes: ["Escola", "Correr", "Pular", "Bonito"], respostaCorreta: 0 },
@@ -49,12 +49,11 @@ const questoes = {
         { pergunta: "A onça, com muita fome, procurava por comida. Encontrou um tatu, mas ele logo cavou um buraco e escapou. O que motivou a onça a procurar comida?", opcoes: ["Estava entediada", "Estava com fome", "Queria brincar", "Tinha medo de tatu"], respostaCorreta: 1 },
         { pergunta: "O livro é um amigo que nos acompanha em qualquer lugar.” Esse trecho utiliza:", opcoes: ["Uma explicação literal", "Uma comparação figurada", "Uma lista de características", " Uma instrução direta"], respostaCorreta: 1 },
         { pergunta: "Em qual alternativa há fato e não opinião?", opcoes: ["A borboleta é o inseto mais bonito do mundo", "As flores devem ser sempre rosas", "O Sol nasce todos os dias no Leste", "Todo mundo gosta de brigadeiro"], respostaCorreta: 2 },
-        { pergunta: "Qual das palavras pode substituir “feliz” no trecho: “A menina estava feliz com o presente”?", opcoes: ["Alegria", "Triste", "Cansada", "Doente"], respostaCorreta: 0 },
+        { pergunta: "Qual das palavras pode substituir “feliz” no trecho: “A menina estava feliz com o presente”?", opcoes: ["Alegria", "Triste", "Cansada", "Doente", "Alegre"], respostaCorreta: 0 },
         { pergunta: "Qual dessas planificações pode formar um cubo?", opcoes: ["Seis triângulos", "Seis quadrados", "Quatro retângulos", "Dois círculos"], respostaCorreta: 1 },
         { pergunta: "Assinale a alternativa que mostra apenas figuras planas:", opcoes: ["Cubo, Esfera, Pirâmide", " Retângulo, Círculo, Triângulo", "Cone, Cubo, Cilindro", "Esfera, Quadrado, Cubo"], respostaCorreta: 1 },
         { pergunta: "Qual instrumento usamos para medir o tempo?", opcoes: ["Balança", "Relógio", "Régua", "Termômetro"], respostaCorreta: 1 },
         { pergunta: "Faltam 3 meses para o aniversário de Ana. Em que mês será, se estamos em julho?", opcoes: ["Agosto", "Setembro", "Outubro", "Novembro"], respostaCorreta: 2 },
-
     ],
     '9ano': [
     // ---- LÍNGUA PORTUGUESA ----
@@ -96,8 +95,10 @@ const questoes = {
         { pergunta: "O gráfico de barras mostra as notas de João em quatro provas: 5, 7, 8 e 10. Qual foi a média das notas?", 
         opcoes: ["7", "7,5", "8", "8,5"], respostaCorreta: 1 },
     ]
-
 };
+
+let acertos = 0;
+let erros = 0;
 
 let turmaSelecionada = '';
 let questaoAtual = null;
@@ -118,6 +119,11 @@ function voltarParaSelecaoDeAno() {
     document.getElementById('tela-inicial').classList.remove('tela-oculta');
     document.getElementById('tela-inicial').classList.add('tela-ativa');
     document.getElementById('questao-container').classList.add('questao-oculta');
+    
+    // Reinicia os contadores ao voltar para a tela inicial
+    acertos = 0;
+    erros = 0;
+    atualizarContadores();
 }
 
 function girarRoleta() {
@@ -130,8 +136,6 @@ function girarRoleta() {
     anguloAtual = novoAngulo;
 
     setTimeout(() => {
-        // A lógica para 12 setores (360/12 = 30)
-        // O +15 é para centralizar o ponteiro no meio do setor de 30 graus
         const setorParado = Math.floor(((360 - (anguloAtual % 360) + 15) % 360) / 30);
         exibirQuestao(setorParado);
     }, 3000);
@@ -140,8 +144,6 @@ function girarRoleta() {
 function exibirQuestao(indice) {
     const questoesDaTurma = questoes[turmaSelecionada];
     
-    // Agora que o setor pode ser de 0 a 11, não precisamos mais do fallback
-    // Mas é uma boa prática ter, caso o indice seja maior que o número de questões
     if (questoesDaTurma[indice]) {
         questaoAtual = questoesDaTurma[indice];
     } else {
@@ -168,34 +170,36 @@ function exibirQuestao(indice) {
     questaoContainer.classList.remove('questao-oculta');
 }
 
+function atualizarContadores() {
+    document.getElementById('acertos').textContent = acertos;
+    document.getElementById('erros').textContent = erros;
+}
+
 function verificarResposta(indiceResposta) {
+    
+    const opcoesBotoes = document.getElementById('opcoes-container').querySelectorAll('button');
     const feedback = document.getElementById('feedback');
+    
+    feedback.innerHTML = '';
+    feedback.classList.remove('feedback-correto', 'feedback-incorreto');
+    
+    opcoesBotoes.forEach(botao => {
+        botao.disabled = true;
+    });
+
+    const botaoCorreto = opcoesBotoes[questaoAtual.respostaCorreta];
+    botaoCorreto.classList.add('alternativa-correta');
 
     if (indiceResposta === questaoAtual.respostaCorreta) {
-        feedback.textContent = 'Parabéns! Resposta correta!🤩👏🏼';
-        feedback.style.color = 'white';
-        
-        // Adiciona a classe de animação
-        feedback.classList.add('animacao-correta');
-
-        // Remove depois para poder reaplicar na próxima vez
-        setTimeout(() => feedback.classList.remove('animacao-correta'), 2000);
-
-        // Dispara a animação de confetes com emojis
-        jsConfetti.addConfetti({
-            emojis: ['🥳', '🎉', '🎈'],
-            emojiSize: 40,
-            confettiNumber: 150,
-        });
-
-        // Confete colorido normal também
-        jsConfetti.addConfetti({
-            confettiColors: ['#ff0', '#0f0', '#00f', '#f0f', '#ff5733'],
-            confettiNumber: 200,
-        });
-
+        feedback.innerHTML = 'Parabéns! Resposta correta! 🎉👏🏼';
+        feedback.classList.add('feedback-correto');
+        acertos++;
+        jsConfetti.addConfetti({ emojis: ['🥳', '🎉', '🎈'] });
     } else {
-        feedback.textContent = `Ops! Resposta incorreta. A resposta correta era: ${letrasAlternativas[questaoAtual.respostaCorreta]}) ${questaoAtual.opcoes[questaoAtual.respostaCorreta]}`;
-        feedback.style.color = 'red';
+        feedback.innerHTML = 'Ops, tente de novo! 😔';
+        feedback.classList.add('feedback-incorreto');
+        erros++;
     }
+    
+    atualizarContadores();
 }
